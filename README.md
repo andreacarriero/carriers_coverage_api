@@ -1,15 +1,18 @@
 # Operators Connectivity Coverage API
+Get per-operator mobile connectivity details at city-level.
+
+The connectivity types (2G, 3G, 4G) will result as "present" if them are present at least in one location in the same city.
 
 ### How to populate carriers table
-`python manage.py shell`
-`from data_processing import populate_carriers`
-`populate_carriers.parse_and_populate()`
+- `python manage.py shell`
+- `from data_processing import populate_carriers`
+- `populate_carriers.parse_and_populate()`
 
 
 ### How to populate carriers connectivity table
-`python manage.py shell`
-`from data_processing import populate_carriers_connectivity`
-`populate_carriers_connectivity.parse_and_populate()`
+- `python manage.py shell`
+- `from data_processing import populate_carriers_connectivity`
+- `populate_carriers_connectivity.parse_and_populate()`
 
 ### How to run the application
 - Create a configuration file or rename the example one `mv data/example_configuration.json configuration.json`
@@ -20,11 +23,11 @@
 ### Examples
 Get connectivity at city-level for main operators
 ```
-http GET "http://localhost:5000/?q=tour eiffel"
+http GET "http://localhost:5000/?q=quai lamartine rennes"
 HTTP/1.0 200 OK
-Content-Length: 488
+Content-Length: 461
 Content-Type: application/json
-Date: Wed, 07 Mar 2018 22:59:51 GMT
+Date: Wed, 07 Mar 2018 23:05:28 GMT
 Server: Werkzeug/0.14.1 Python/3.6.0b3
 
 {
@@ -40,13 +43,13 @@ Server: Werkzeug/0.14.1 Python/3.6.0b3
     },
     "meta": {
         "location": {
-            "city": "Paris",
-            "context": "75, Paris, Île-de-France",
+            "city": "Rennes",
+            "context": "35, Ille-et-Vilaine, Bretagne",
             "coordinates": {
-                "x": 2.289644,
-                "y": 48.856888
+                "x": -1.678835,
+                "y": 48.110144
             },
-            "label": "Port de Suffren, CHAMP DE MARS - TOUR EIFFEL 75015 Paris"
+            "label": "Quai Lamartine 35000 Rennes"
         }
     }
 }
@@ -55,11 +58,11 @@ Server: Werkzeug/0.14.1 Python/3.6.0b3
 
 Get connectivity at city-level for all operators
 ```
-http GET "http://localhost:5000/?q=tour eiffel&all=1"
+http GET "http://localhost:5000/?q=quai lamartine rennes&all=1"
 HTTP/1.0 200 OK
-Content-Length: 2842
+Content-Length: 2815
 Content-Type: application/json
-Date: Wed, 07 Mar 2018 23:02:00 GMT
+Date: Wed, 07 Mar 2018 23:08:10 GMT
 Server: Werkzeug/0.14.1 Python/3.6.0b3
 
 {
@@ -205,13 +208,13 @@ Server: Werkzeug/0.14.1 Python/3.6.0b3
     },
     "meta": {
         "location": {
-            "city": "Paris",
-            "context": "75, Paris, Île-de-France",
+            "city": "Rennes",
+            "context": "35, Ille-et-Vilaine, Bretagne",
             "coordinates": {
-                "x": 2.289644,
-                "y": 48.856888
+                "x": -1.678835,
+                "y": 48.110144
             },
-            "label": "Port de Suffren, CHAMP DE MARS - TOUR EIFFEL 75015 Paris"
+            "label": "Quai Lamartine 35000 Rennes"
         }
     }
 }

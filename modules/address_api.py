@@ -32,7 +32,7 @@ class LocationResponse():
 
     def serialize(self):
         return {
-            'lable': self.label,
+            'label': self.label,
             'context': self.context,
             'city': self.city,
             'coordinates': {

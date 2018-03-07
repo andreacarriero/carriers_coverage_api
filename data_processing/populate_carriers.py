@@ -13,10 +13,6 @@ log = get_logger(__name__)
 conf = AppConfiguration()
 
 def parse_and_populate():
-    ######################################
-    # God forgive me for this hardcoding #
-    ######################################
-
     wiki_url = conf.get('franceWikiMNCURL')
 
     log.info('Getting and parsing tables from %s' % wiki_url)
@@ -24,6 +20,10 @@ def parse_and_populate():
     carriers_table = tables[0].as_matrix()
 
     with app.app_context():
+        ######################################
+        # God forgive me for this hardcoding #
+        ######################################
+        
         for row in carriers_table[1:]:
             mcc_mnc = row[0] + row[1]
             carrier_name = row[2]

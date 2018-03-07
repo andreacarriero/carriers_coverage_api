@@ -12,16 +12,16 @@ class Carrier(db.Model):
 class CarrierConnectivity(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mcc_mnc = db.Column(db.String(5))
-    lambert93X = db.Column(db.String(7))
-    lambert93Y = db.Column(db.String(7))
+    coord_x = db.Column(db.Float) # float --> 8 bytes --> 1.7m precision
+    coord_y = db.Column(db.Float) # float --> 8 bytes --> 1.7m precision
     conn_2G = db.Column(db.Boolean)
     conn_3G = db.Column(db.Boolean)
     conn_4G = db.Column(db.Boolean)
 
-    def __init__(self, mcc_mnc, lambert93X, lambert93Y, conn_2G=False, conn_3G=False, conn_4G=False):
+    def __init__(self, mcc_mnc, coord_x, coord_y, conn_2G=False, conn_3G=False, conn_4G=False):
         self.mcc_mnc = mcc_mnc
-        self.lambert93X = lambert93X
-        self.lambert93Y = lambert93Y
+        self.coord_x = coord_x
+        self.coord_y = coord_y
         self.conn_2G = conn_2G
         self.conn_3G = conn_3G
         self.conn_4G = conn_4G

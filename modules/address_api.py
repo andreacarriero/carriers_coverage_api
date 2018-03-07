@@ -85,3 +85,48 @@ class AddressApiParserFR():
         else:
             log.error('Request error with q: %s' % address)
             raise RequestError("Response status code: %s. Response content: %s" % (response.status_code, response.text))
+
+class ReverseAddressApiParserFR():
+    def __init__(self):
+        self.api_endpoint = conf.get('franceAddressAPIEndpoint')
+
+    def search(self, lat, long):
+        query_string = {
+            'lat': lat,
+            'lon': long
+        }
+
+        headers = {
+            'Cache-Control': "no-cache"
+        }
+
+        url = self.api_endpoint + '/reverse'
+        response = requests.request("GET", url, headers=headers, params=query_string)
+
+        if response.status_code == 200:
+            jresponse = json.loads(response.text)
+            try:
+                if (len(jresponse['features']) == 0):
+                    log.error("No results for lat:%s lon:%s" % (lat, long))
+                    raise NoResultsError("No results")
+                
+                selected_jresponse = jresponse['features'][0]
+                location_response = LocationResponse(
+                    selected_jresponse['properties']['label'],
+                    selected_jresponse['properties']['context'],
+                    selected_jresponse['properties']['city'],
+                    selected_jresponse['geometry']['coordinates'][0],
+                    selected_jresponse['geometry']['coordinates'][1]
+                )
+            except KeyError as e:
+                log.error('Address API provider error: %s' % e)
+                raise AddressAPIProviderError('Error when parsing location provider API')
+
+            return location_response.serialize()
+
+        elif response.status_code == 400:
+            log.error("Bad request with lat:%s lon:%s" % (lat, long))
+            raise BadRequestError("Bad request. Details: %s" % response.text)
+        else:
+            log.error('Request error with lat:%s lon:%s' % (lat, long))
+            raise RequestError("Response status code: %s. Response content: %s" % (response.status_code, response.text))

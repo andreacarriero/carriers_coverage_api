@@ -18,6 +18,10 @@ class NoResultsError(Exception):
     def __init__(self, message):
         self.message = message
 
+class AddressAPIProviderError(Exception):
+    def __init__(self, message):
+        self.message = message
+
 class LocationResponse():
     def __init__(self, label, context, city, coord_x, coord_y):
         self.label = label
@@ -56,18 +60,23 @@ class AddressApiParserFR():
         if response.status_code == 200:
             jresponse = json.loads(response.text)
 
-            if len(jresponse['features']) == 0:
-                log.error('No results with q: %s' % address)
-                raise NoResultsError("No results. Please change your search terms.")
+            try:
+                if len(jresponse['features']) == 0:
+                    log.error('No results with q: %s' % address)
+                    raise NoResultsError("No results. Please change your search terms.")
 
-            selected_jresponse = jresponse['features'][0]
-            location_response = LocationResponse(
-                selected_jresponse['properties']['label'],
-                selected_jresponse['properties']['context'],
-                selected_jresponse['properties']['city'],
-                selected_jresponse['geometry']['coordinates'][0],
-                selected_jresponse['geometry']['coordinates'][1]
-            )
+                selected_jresponse = jresponse['features'][0]
+                location_response = LocationResponse(
+                    selected_jresponse['properties']['label'],
+                    selected_jresponse['properties']['context'],
+                    selected_jresponse['properties']['city'],
+                    selected_jresponse['geometry']['coordinates'][0],
+                    selected_jresponse['geometry']['coordinates'][1]
+                )
+            except KeyError as e:
+                log.error('Address API provider error: %s' % e)
+                raise AddressAPIProviderError('Error when parsing location provider API')
+
             return location_response.serialize()
 
         elif response.status_code == 400:

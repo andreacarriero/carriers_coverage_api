@@ -2,5 +2,7 @@
     "databaseURI": "sqlite:///data/dev.db",
     "databaseTrackModifications": false,
     "devServerHost": "localhost",
-    "devServerPort": 5000
+    "devServerPort": 5000,
+
+    "franceWikiMNCURL": "https://fr.wikipedia.org/wiki/Mobile_Network_Code"
 }

@@ -30,7 +30,7 @@ class TestCase(unittest.TestCase):
         self.assertIsNotNone(first_carrier)
 
     def _parse_and_populate_carriers_connectivity(self):
-        populate_carriers_connectivity.parse_and_populate()
+        populate_carriers_connectivity.parse_and_populate(test_sandbox=True)
         with self.app_instance.test_request_context():
             first_carrier_connectivity = CarrierConnectivity.query.first()
         self.assertIsNotNone(first_carrier_connectivity)

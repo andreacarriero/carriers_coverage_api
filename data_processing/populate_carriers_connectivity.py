@@ -9,8 +9,11 @@ from toolbox.database import db
 
 from models.carriers import CarrierConnectivity
 
+from modules.address_api import ReverseAddressApiParserFR, LocationResponse, NoResultsError
+
 log = get_logger(__name__)
 conf = AppConfiguration()
+reverse_location_api = ReverseAddressApiParserFR()
 
 def lamb2coord(lX, lY):
     lambert = pyproj.Proj('+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs')
@@ -19,7 +22,7 @@ def lamb2coord(lX, lY):
     return long, lat
 
 
-def parse_and_populate():
+def parse_and_populate(test_sandbox=False):
     csv_url = conf.get('franceCarriersConnectivityCSVURL')
 
     log.info('Getting and parsing data from %s' % csv_url)
@@ -40,6 +43,10 @@ def parse_and_populate():
         ######################################
         
         data_matrix = data.as_matrix()
+
+        if test_sandbox:
+            data_matrix = data_matrix[:5] # speedup testing
+
         for row in data_matrix:
             mcc_mnc = row[0]
             log.info('Processing carrier %s' % mcc_mnc)
@@ -48,10 +55,18 @@ def parse_and_populate():
             lY = row[2]
             cX, cY = lamb2coord(lX, lY)
 
+            try:
+                reverse_location = reverse_location_api.search(cY, cX)
+            except NoResultsError:
+                reverse_location = LocationResponse(None,None,None,None,None).serialize()
+
             carrier_connectivity = CarrierConnectivity(
                 mcc_mnc,
                 cX,
                 cY,
+                reverse_location['label'],
+                reverse_location['context'],
+                reverse_location['city'],
                 row[3],
                 row[4],
                 row[5]

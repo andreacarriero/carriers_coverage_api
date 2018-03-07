@@ -18,6 +18,11 @@ class AddressApiFRTestCase(unittest.TestCase):
         api = AddressApiParserFR()
         result = api.search('Tour Eiffel')
         self.assertEqual(result['city'], 'Paris')
+        self.assertAlmostEqual(result['label'], 'Port de Suffren, CHAMP DE MARS - TOUR EIFFEL 75015 Paris')
+        self.assertAlmostEqual(result['context'], '75, Paris, Île-de-France')
+        self.assertEqual(result['coordinates']['x'], 2.289644)
+        self.assertEqual(result['coordinates']['y'], 48.856888)
+
 
 class ReverseAddressApiFRTestCase(unittest.TestCase):
     def test_bad_parameters(self):
@@ -34,5 +39,8 @@ class ReverseAddressApiFRTestCase(unittest.TestCase):
         api = ReverseAddressApiParserFR()
         response = api.search(48.8583736, 2.2922926)
         self.assertEqual(response['city'], 'Paris')
+        self.assertAlmostEqual(response['label'], '9001 Port de Suffren 75007 Paris')
+        self.assertAlmostEqual(response['context'], '75, Paris, Île-de-France')
+
 
         

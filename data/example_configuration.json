@@ -4,5 +4,6 @@
     "devServerHost": "localhost",
     "devServerPort": 5000,
 
-    "franceWikiMNCURL": "https://fr.wikipedia.org/wiki/Mobile_Network_Code"
+    "franceWikiMNCURL": "https://fr.wikipedia.org/wiki/Mobile_Network_Code",
+    "franceAddressAPIEndpoint": "https://api-adresse.data.gouv.fr"
 }

@@ -1,0 +1,6 @@
+{
+    "databaseURI": "sqlite:///data/dev.db",
+    "databaseTrackModifications": false,
+    "devServerHost": "localhost",
+    "devServerPort": 5000
+}

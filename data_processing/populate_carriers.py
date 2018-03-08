@@ -13,6 +13,10 @@ log = get_logger(__name__)
 conf = AppConfiguration()
 
 def parse_and_populate():
+    """
+    Parses and populates carriers table
+    """
+
     wiki_url = conf.get('franceWikiMNCURL')
 
     log.info('Getting and parsing tables from %s' % wiki_url)

@@ -4,15 +4,32 @@ from toolbox.logger import get_logger
 log = get_logger(__name__)
 
 class Carrier(db.Model):
+    """
+    Carrier Model
+    """
+
     id = db.Column(db.Integer, primary_key=True)
     mcc_mnc = db.Column(db.String(5), unique=True)
     name = db.Column(db.String(20))
 
     def __init__(self, mcc_mnc, name):
+        """
+        Creates a Carrier instance
+
+        Parameters
+        ----------
+        mcc_mnc : str
+
+        name : str
+        """
         self.mcc_mnc = mcc_mnc
         self.name = name
 
 class CarrierConnectivity(db.Model):
+    """
+    Carrier Connectivity Model
+    """
+
     id = db.Column(db.Integer, primary_key=True)
     mcc_mnc = db.Column(db.String(5))
     coord_x = db.Column(db.Float) # float --> 8 bytes --> 1.7m precision
@@ -37,6 +54,29 @@ class CarrierConnectivity(db.Model):
         conn_3G=False,
         conn_4G=False
     ):
+        """
+        Creates a CarrierConnectivity instance
+
+        Parameters
+        ----------
+        mcc_mnc : str
+
+        coord_x : float
+    
+        coord_y : float
+
+        location_label : str
+
+        location_context : str
+
+        location_city : str
+
+        conn_2G : bool
+
+        conn_3G : bool
+
+        conn_4G : bool
+        """
         self.mcc_mnc = mcc_mnc
         self.coord_x = coord_x
         self.coord_y = coord_y
@@ -48,6 +88,23 @@ class CarrierConnectivity(db.Model):
         self.location_city = location_city
 
 def get_connectivity_in_city(city):
+    """
+    Returns connectivity per-carrier in given city
+
+    Parameters
+    ----------
+    city : str
+
+    Returns
+    -------
+    results : dict
+    ```
+    {
+        'Orange': {'2G': True, '3G': True, '4G': False}
+        ...
+    }
+    ```
+    """
     log.info("Getting connectivity details in %s" % city)
     results = {}
 

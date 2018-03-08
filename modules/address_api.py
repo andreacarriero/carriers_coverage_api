@@ -23,7 +23,27 @@ class AddressAPIProviderError(Exception):
         self.message = message
 
 class LocationResponse():
+    """
+    Standard location response model
+    """
+
     def __init__(self, label, context, city, coord_x, coord_y):
+        """
+        Created a LocationResponse instance
+
+        Parameters
+        ----------
+        label : str
+
+        context : str
+
+        city : str
+
+        coord_x : str --> Longitude
+
+        coord_y : str --> Latitude
+        """
+
         self.label = label
         self.context = context
         self.city = city
@@ -31,6 +51,10 @@ class LocationResponse():
         self.coord_y = coord_y
 
     def serialize(self):
+        """
+        Returns serialized data as dict
+        """
+
         return {
             'label': self.label,
             'context': self.context,
@@ -42,10 +66,26 @@ class LocationResponse():
         }
 
 class AddressApiParserFR():
+    """
+    Location API parser for France
+    """
+
     def __init__(self):
+        """
+        Created an AddressApiParserFR instance
+        """
+
         self.api_endpoint = conf.get('franceAddressAPIEndpoint')
 
     def search(self, address):
+        """
+        Returns a serialized LocationResponse dict for given address
+
+        Parameters
+        ----------
+        address : str
+        """
+
         query_string = {
             'q': address
         }
@@ -87,10 +127,27 @@ class AddressApiParserFR():
             raise RequestError("Response status code: %s. Response content: %s" % (response.status_code, response.text))
 
 class ReverseAddressApiParserFR():
+    """
+    Reverse loacation api parser for France
+    """
+
     def __init__(self):
+        """
+        Creates a ReverseAddressApiParserFR instance
+        """
+
         self.api_endpoint = conf.get('franceAddressAPIEndpoint')
 
     def search(self, lat, long):
+        """
+        Returns a serialized LocationResponse dict for given lat and long
+
+        Parameters
+        ----------
+        lat : str
+        
+        long : str
+        """
         query_string = {
             'lat': lat,
             'lon': long

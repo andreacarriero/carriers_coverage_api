@@ -8,7 +8,6 @@ The connectivity types (2G, 3G, 4G) will result as "present" if them are present
 - `from data_processing import populate_carriers`
 - `populate_carriers.parse_and_populate()`
 
-
 ### How to populate carriers connectivity table
 - `python manage.py shell`
 - `from data_processing import populate_carriers_connectivity`
@@ -21,7 +20,16 @@ The connectivity types (2G, 3G, 4G) will result as "present" if them are present
 - Run the dev server `python manage.py runserver`
 
 ### Examples
-Get connectivity at city-level for main operators
+Get connectivity at city-level for main operators.
+
+To change the "main operators" list edit `data/configuration.json`.
+```
+"carriersToShow": [
+    "Orange",
+    "SFR"
+]
+```
+
 ```
 http GET "http://localhost:5000/?q=quai lamartine rennes"
 HTTP/1.0 200 OK

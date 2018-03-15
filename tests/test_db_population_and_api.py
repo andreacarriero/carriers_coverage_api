@@ -50,7 +50,7 @@ class TestCase(unittest.TestCase):
     def test_legit_api_request(self):
         r = self.app_instance.test_client().get('/', query_string={'q': 'Ouessant'})
         self.assertEqual(r.status_code, 200)
-        rj = json.loads(r.data)
+        rj = json.loads(r.data.decode('utf8'))
         self.assertEqual(rj['meta']['location']['city'], 'Ouessant')
         for carrier in conf.get('carriersToShow'):
             self.assertIn(carrier, rj)
@@ -58,7 +58,7 @@ class TestCase(unittest.TestCase):
     def test_legit_api_request_for_all_carriers(self):
         r = self.app_instance.test_client().get('/', query_string={'q': 'Ouessant', 'all': True})
         self.assertEqual(r.status_code, 200)
-        rj = json.loads(r.data)
+        rj = json.loads(r.data.decode('utf8'))
         self.assertEqual(rj['meta']['location']['city'], 'Ouessant')
         with self.app_instance.test_request_context():
             for carrier in Carrier.query.filter(Carrier.name != None).all():

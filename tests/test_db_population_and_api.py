@@ -44,8 +44,8 @@ class TestCase(unittest.TestCase):
 
         cX, cY = populate_carriers_connectivity.lamb2coord(lX, lY)
 
-        self.assertEqual(cX, -5.088856115301341)
-        self.assertEqual(cY, 48.45657455881529)
+        self.assertAlmostEqual(cX, -5.088856115301341)
+        self.assertAlmostEqual(cY, 48.45657455881529)
 
     def test_legit_api_request(self):
         r = self.app_instance.test_client().get('/', query_string={'q': 'Ouessant'})
